@@ -1,0 +1,5 @@
+* text=auto
+
+.github/            export-ignore
+.gitignore          export-ignore
+*.md                export-ignore

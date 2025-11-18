@@ -1,0 +1,188 @@
+name: CI and Publish to npm
+
+on:
+  push:
+    tags: ["v*"]
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  ci:
+    name: CI with Bun
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Verify Bun installation
+        run: |
+          bun --version
+          echo "Bun installed successfully"
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run preinstall check
+        run: bun run node ./engine-requirements.js
+
+      - name: Run ESLint
+        run: bunx eslint .
+        continue-on-error: true
+
+      - name: Run Prettier check
+        id: prettier-check
+        run: |
+          if bunx prettier --check .; then
+            echo "prettier_needed=false" >> $GITHUB_OUTPUT
+          else
+            echo "prettier_needed=true" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      - name: Check version changes
+        id: version
+        run: |
+          # Check if we have a previous commit to compare
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            if git diff HEAD^ HEAD -- package.json | grep -q '"version"'; then
+              echo "version_changed=true" >> $GITHUB_OUTPUT
+            else
+              echo "version_changed=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "version_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for skip-ci marker
+        id: skip-ci
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
+          if [[ "$LAST_COMMIT_MSG" == *"[skip-prettier]"* ]] || [[ "$LAST_COMMIT_MSG" == *"style: auto-format"* ]]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Prettier auto-format
+        id: format
+        if: |
+          steps.version.outputs.version_changed == 'true' && 
+          steps.prettier-check.outputs.prettier_needed == 'true' &&
+          steps.skip-ci.outputs.skip == 'false' &&
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main'
+        run: |
+          bunx prettier --write .
+          if git diff --quiet; then
+            echo "changes_made=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes_made=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit & Push changes
+        if: steps.format.outputs.changes_made == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "style: auto-format with Prettier [skip-prettier]"
+          
+          max_retries=3
+          retry_count=0
+          until git push origin main || [ $retry_count -eq $max_retries ]; do
+            retry_count=$((retry_count + 1))
+            echo "Push failed, retrying ($retry_count/$max_retries)..."
+            git pull --rebase origin main
+            sleep 2
+          done
+          
+          if [ $retry_count -eq $max_retries ]; then
+            echo "Failed to push after $max_retries attempts"
+            exit 1
+          fi
+
+      - name: Verify formatting
+        run: |
+          if git diff --quiet; then
+            echo "✓ No formatting changes needed"
+          else
+            echo "⚠ Warning: Unexpected formatting differences detected"
+            git diff --stat
+          fi
+
+  publish:
+    name: Publish to npm
+    needs: ci
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Verify tag matches package.json version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          
+          if [ "$PACKAGE_VERSION" != "$TAG_VERSION" ]; then
+            echo "Error: Tag version ($TAG_VERSION) doesn't match package.json version ($PACKAGE_VERSION)"
+            exit 1
+          fi
+          echo "✓ Version verification passed: v$PACKAGE_VERSION"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify build output
+        run: |
+          if [ ! -f "export.js" ] || [ ! -f "export.d.ts" ]; then
+            echo "Error: Build output not found"
+            echo "Expected files:"
+            echo "  - export.js"
+            echo "  - export.d.ts"
+            exit 1
+          fi
+          echo "✓ Build output verified:"
+          ls -lah export.*
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Verify NPM_TOKEN is set
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "Error: NPM_TOKEN secret is not set"
+            exit 1
+          fi
+          
+          npm publish --access public
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
