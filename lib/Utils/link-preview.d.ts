@@ -1,5 +1,5 @@
-import type { WAMediaUploadFunction, WAUrlInfo } from '../Types/index.js';
-import type { ILogger } from './logger.js';
+import type { WAMediaUploadFunction, WAUrlInfo } from "../Types/index.js";
+import type { ILogger } from "./logger.js";
 export type URLGenerationOptions = {
     thumbnailWidth: number;
     fetchOpts: {
@@ -17,5 +17,8 @@ export type URLGenerationOptions = {
  * @param text first matched URL in text
  * @returns the URL info required to generate link preview
  */
-export declare const getUrlInfo: (text: string, opts?: URLGenerationOptions) => Promise<WAUrlInfo | undefined>;
+export declare const getUrlInfo: (
+    text: string,
+    opts?: URLGenerationOptions
+) => Promise<WAUrlInfo | undefined>;
 //# sourceMappingURL=link-preview.d.ts.map

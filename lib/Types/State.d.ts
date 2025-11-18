@@ -1,5 +1,5 @@
-import { Boom } from '@hapi/boom';
-import type { Contact } from './Contact.js';
+import { Boom } from "@hapi/boom";
+import type { Contact } from "./Contact.js";
 export declare enum SyncState {
     /** The socket is connecting, but we haven't received pending notifications yet. */
     Connecting = 0,
@@ -8,9 +8,9 @@ export declare enum SyncState {
     /** The initial app state sync (history, etc.) is in progress. Buffering continues. */
     Syncing = 2,
     /** Initial sync is complete, or was skipped. The socket is fully operational and events are processed in real-time. */
-    Online = 3
+    Online = 3,
 }
-export type WAConnectionState = 'open' | 'connecting' | 'close';
+export type WAConnectionState = "open" | "connecting" | "close";
 export type ConnectionState = {
     /** connection is now open, connecting or closed */
     connection: WAConnectionState;

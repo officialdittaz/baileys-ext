@@ -1,5 +1,5 @@
-import type { BaileysEventEmitter, BaileysEventMap } from '../Types/index.js';
-import type { ILogger } from './logger.js';
+import type { BaileysEventEmitter, BaileysEventMap } from "../Types/index.js";
+import type { ILogger } from "./logger.js";
 /**
  * A map that contains a list of all events that have been triggered
  *
@@ -16,7 +16,9 @@ type BaileysBufferableEventEmitter = BaileysEventEmitter & {
      * */
     buffer(): void;
     /** buffers all events till the promise completes */
-    createBufferedFunction<A extends any[], T>(work: (...args: A) => Promise<T>): (...args: A) => Promise<T>;
+    createBufferedFunction<A extends any[], T>(
+        work: (...args: A) => Promise<T>
+    ): (...args: A) => Promise<T>;
     /**
      * flushes all buffered events
      * @returns returns true if the flush actually happened, otherwise false

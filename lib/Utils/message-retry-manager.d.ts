@@ -1,5 +1,5 @@
-import type { proto } from '../../WAProto/index.js';
-import type { ILogger } from './logger.js';
+import type { proto } from "../../WAProto/index.js";
+import type { ILogger } from "./logger.js";
 export interface RecentMessageKey {
     to: string;
     id: string;
@@ -45,7 +45,11 @@ export declare class MessageRetryManager {
     /**
      * Check if a session should be recreated based on retry count and history
      */
-    shouldRecreateSession(jid: string, retryCount: number, hasSession: boolean): {
+    shouldRecreateSession(
+        jid: string,
+        retryCount: number,
+        hasSession: boolean
+    ): {
         reason: string;
         recreate: boolean;
     };

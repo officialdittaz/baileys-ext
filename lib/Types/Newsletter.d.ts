@@ -10,7 +10,7 @@ export declare enum XWAPaths {
     xwa2_newsletter_unfollow = "xwa2_newsletter_unfollow",
     xwa2_newsletter_change_owner = "xwa2_newsletter_change_owner",
     xwa2_newsletter_demote = "xwa2_newsletter_demote",
-    xwa2_newsletter_delete_v2 = "xwa2_newsletter_delete_v2"
+    xwa2_newsletter_delete_v2 = "xwa2_newsletter_delete_v2",
 }
 export declare enum QueryIds {
     CREATE = "8823471724422422",
@@ -24,7 +24,7 @@ export declare enum QueryIds {
     ADMIN_COUNT = "7130823597031706",
     CHANGE_OWNER = "7341777602580933",
     DEMOTE = "6551828931592903",
-    DELETE = "30062808666639665"
+    DELETE = "30062808666639665",
 }
 export type NewsletterUpdate = {
     name?: string;
@@ -61,10 +61,10 @@ export interface NewsletterCreateResponse {
             type: string;
         };
         subscribers_count: string;
-        verification: 'VERIFIED' | 'UNVERIFIED';
+        verification: "VERIFIED" | "UNVERIFIED";
     };
     viewer_metadata: {
-        mute: 'ON' | 'OFF';
+        mute: "ON" | "OFF";
         role: NewsletterViewRole;
     };
 }
@@ -98,14 +98,14 @@ export interface NewsletterCreateResponse {
             type: string;
         };
         subscribers_count: string;
-        verification: 'VERIFIED' | 'UNVERIFIED';
+        verification: "VERIFIED" | "UNVERIFIED";
     };
     viewer_metadata: {
-        mute: 'ON' | 'OFF';
+        mute: "ON" | "OFF";
         role: NewsletterViewRole;
     };
 }
-export type NewsletterViewRole = 'ADMIN' | 'GUEST' | 'OWNER' | 'SUBSCRIBER';
+export type NewsletterViewRole = "ADMIN" | "GUEST" | "OWNER" | "SUBSCRIBER";
 export interface NewsletterMetadata {
     id: string;
     owner?: string;
@@ -120,12 +120,12 @@ export interface NewsletterMetadata {
         mediaKey?: string;
         id?: string;
     };
-    verification?: 'VERIFIED' | 'UNVERIFIED';
+    verification?: "VERIFIED" | "UNVERIFIED";
     reaction_codes?: {
         code: string;
         count: number;
     }[];
-    mute_state?: 'ON' | 'OFF';
+    mute_state?: "ON" | "OFF";
     thread_metadata?: {
         creation_time?: number;
         name?: string;

@@ -1,11 +1,16 @@
-import type { Agent } from 'https';
-import type { URL } from 'url';
-import { proto } from '../../WAProto/index.js';
-import type { ILogger } from '../Utils/logger.js';
-import type { AuthenticationState, LIDMapping, SignalAuthState, TransactionCapabilityOptions } from './Auth.js';
-import type { GroupMetadata } from './GroupMetadata.js';
-import { type MediaConnInfo, type WAMessageKey } from './Message.js';
-import type { SignalRepositoryWithLIDStore } from './Signal.js';
+import type { Agent } from "https";
+import type { URL } from "url";
+import { proto } from "../../WAProto/index.js";
+import type { ILogger } from "../Utils/logger.js";
+import type {
+    AuthenticationState,
+    LIDMapping,
+    SignalAuthState,
+    TransactionCapabilityOptions,
+} from "./Auth.js";
+import type { GroupMetadata } from "./GroupMetadata.js";
+import { type MediaConnInfo, type WAMessageKey } from "./Message.js";
+import type { SignalRepositoryWithLIDStore } from "./Signal.js";
 export type WAVersion = [number, number, number];
 export type WABrowserDescription = [string, string, string];
 export type CacheStore = {
@@ -20,10 +25,12 @@ export type CacheStore = {
 };
 export type PossiblyExtendedCacheStore = CacheStore & {
     mget?: <T>(keys: string[]) => Promise<Record<string, T | undefined>>;
-    mset?: <T>(entries: {
-        key: string;
-        value: T;
-    }[]) => Promise<void> | void | number | boolean;
+    mset?: <T>(
+        entries: {
+            key: string;
+            value: T;
+        }[]
+    ) => Promise<void> | void | number | boolean;
     mdel?: (keys: string[]) => void | Promise<void> | number | boolean;
 };
 export type PatchedMessageWithRecipientJID = proto.IMessage & {
@@ -59,7 +66,7 @@ export type SocketConfig = {
     /** should events be emitted for actions done by this socket connection */
     emitOwnEvents: boolean;
     /** custom upload hosts to upload media to */
-    customUploadHosts: MediaConnInfo['hosts'];
+    customUploadHosts: MediaConnInfo["hosts"];
     /** time to wait between sending new retry requests */
     retryRequestDelayMs: number;
     /** max retry count */
@@ -112,7 +119,13 @@ export type SocketConfig = {
     /**
      * Optionally patch the message before sending out
      * */
-    patchMessageBeforeSending: (msg: proto.IMessage, recipientJids?: string[]) => Promise<PatchedMessageWithRecipientJID[] | PatchedMessageWithRecipientJID> | PatchedMessageWithRecipientJID[] | PatchedMessageWithRecipientJID;
+    patchMessageBeforeSending: (
+        msg: proto.IMessage,
+        recipientJids?: string[]
+    ) =>
+        | Promise<PatchedMessageWithRecipientJID[] | PatchedMessageWithRecipientJID>
+        | PatchedMessageWithRecipientJID[]
+        | PatchedMessageWithRecipientJID;
     /** verify app state MACs */
     appStateMacVerification: {
         patch: boolean;
@@ -128,6 +141,10 @@ export type SocketConfig = {
     getMessage: (key: WAMessageKey) => Promise<proto.IMessage | undefined>;
     /** cached group metadata, use to prevent redundant requests to WA & speed up msg sending */
     cachedGroupMetadata: (jid: string) => Promise<GroupMetadata | undefined>;
-    makeSignalRepository: (auth: SignalAuthState, logger: ILogger, pnToLIDFunc?: (jids: string[]) => Promise<LIDMapping[] | undefined>) => SignalRepositoryWithLIDStore;
+    makeSignalRepository: (
+        auth: SignalAuthState,
+        logger: ILogger,
+        pnToLIDFunc?: (jids: string[]) => Promise<LIDMapping[] | undefined>
+    ) => SignalRepositoryWithLIDStore;
 };
 //# sourceMappingURL=Socket.d.ts.map

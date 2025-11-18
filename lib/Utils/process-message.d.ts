@@ -1,6 +1,14 @@
-import { proto } from '../../WAProto/index.js';
-import type { AuthenticationCreds, BaileysEventEmitter, CacheStore, SignalKeyStoreWithTransaction, SignalRepositoryWithLIDStore, WAMessage, WAMessageKey } from '../Types/index.js';
-import type { ILogger } from './logger.js';
+import { proto } from "../../WAProto/index.js";
+import type {
+    AuthenticationCreds,
+    BaileysEventEmitter,
+    CacheStore,
+    SignalKeyStoreWithTransaction,
+    SignalRepositoryWithLIDStore,
+    WAMessage,
+    WAMessageKey,
+} from "../Types/index.js";
+import type { ILogger } from "./logger.js";
 type ProcessMessageContext = {
     shouldProcessHistoryMsg: boolean;
     placeholderResendCache?: CacheStore;
@@ -36,7 +44,22 @@ type PollContext = {
  * @param ctx additional info about the poll required for decryption
  * @returns list of SHA256 options
  */
-export declare function decryptPollVote({ encPayload, encIv }: proto.Message.IPollEncValue, { pollCreatorJid, pollMsgId, pollEncKey, voterJid }: PollContext): proto.Message.PollVoteMessage;
-declare const processMessage: (message: WAMessage, { shouldProcessHistoryMsg, placeholderResendCache, ev, creds, signalRepository, keyStore, logger, options }: ProcessMessageContext) => Promise<void>;
+export declare function decryptPollVote(
+    { encPayload, encIv }: proto.Message.IPollEncValue,
+    { pollCreatorJid, pollMsgId, pollEncKey, voterJid }: PollContext
+): proto.Message.PollVoteMessage;
+declare const processMessage: (
+    message: WAMessage,
+    {
+        shouldProcessHistoryMsg,
+        placeholderResendCache,
+        ev,
+        creds,
+        signalRepository,
+        keyStore,
+        logger,
+        options,
+    }: ProcessMessageContext
+) => Promise<void>;
 export default processMessage;
 //# sourceMappingURL=process-message.d.ts.map

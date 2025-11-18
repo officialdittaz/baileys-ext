@@ -1,10 +1,10 @@
-import type { Readable } from 'stream';
-import type { URL } from 'url';
-import { proto } from '../../WAProto/index.js';
-import type { MediaType } from '../Defaults/index.js';
-import type { BinaryNode } from '../WABinary/index.js';
-import type { GroupMetadata } from './GroupMetadata.js';
-import type { CacheStore } from './Socket.js';
+import type { Readable } from "stream";
+import type { URL } from "url";
+import { proto } from "../../WAProto/index.js";
+import type { MediaType } from "../Defaults/index.js";
+import type { BinaryNode } from "../WABinary/index.js";
+import type { GroupMetadata } from "./GroupMetadata.js";
+import type { CacheStore } from "./Socket.js";
 export { proto as WAProto };
 export type WAMessage = proto.IWebMessageInfo & {
     key: WAMessageKey;
@@ -23,10 +23,15 @@ export type WAMessageKey = proto.IMessageKey & {
 export type WATextMessage = proto.Message.IExtendedTextMessage;
 export type WAContextInfo = proto.IContextInfo;
 export type WALocationMessage = proto.Message.ILocationMessage;
-export type WAGenericMediaMessage = proto.Message.IVideoMessage | proto.Message.IImageMessage | proto.Message.IAudioMessage | proto.Message.IDocumentMessage | proto.Message.IStickerMessage;
+export type WAGenericMediaMessage =
+    | proto.Message.IVideoMessage
+    | proto.Message.IImageMessage
+    | proto.Message.IAudioMessage
+    | proto.Message.IDocumentMessage
+    | proto.Message.IStickerMessage;
 export declare const WAMessageStubType: typeof proto.WebMessageInfo.StubType;
 export declare const WAMessageStatus: typeof proto.WebMessageInfo.Status;
-import type { ILogger } from '../Utils/logger.js';
+import type { ILogger } from "../Utils/logger.js";
 export type WAMediaPayloadURL = {
     url: URL | string;
 };
@@ -38,15 +43,54 @@ export type WAMediaUpload = Buffer | WAMediaPayloadStream | WAMediaPayloadURL;
 export type MessageType = keyof proto.Message;
 export declare enum WAMessageAddressingMode {
     PN = "pn",
-    LID = "lid"
+    LID = "lid",
 }
-export type MessageWithContextInfo = 'imageMessage' | 'contactMessage' | 'locationMessage' | 'extendedTextMessage' | 'documentMessage' | 'audioMessage' | 'videoMessage' | 'call' | 'contactsArrayMessage' | 'liveLocationMessage' | 'templateMessage' | 'stickerMessage' | 'groupInviteMessage' | 'templateButtonReplyMessage' | 'productMessage' | 'listMessage' | 'orderMessage' | 'listResponseMessage' | 'buttonsMessage' | 'buttonsResponseMessage' | 'interactiveMessage' | 'interactiveResponseMessage' | 'pollCreationMessage' | 'requestPhoneNumberMessage' | 'messageHistoryBundle' | 'eventMessage' | 'newsletterAdminInviteMessage' | 'albumMessage' | 'stickerPackMessage' | 'pollResultSnapshotMessage' | 'messageHistoryNotice';
+export type MessageWithContextInfo =
+    | "imageMessage"
+    | "contactMessage"
+    | "locationMessage"
+    | "extendedTextMessage"
+    | "documentMessage"
+    | "audioMessage"
+    | "videoMessage"
+    | "call"
+    | "contactsArrayMessage"
+    | "liveLocationMessage"
+    | "templateMessage"
+    | "stickerMessage"
+    | "groupInviteMessage"
+    | "templateButtonReplyMessage"
+    | "productMessage"
+    | "listMessage"
+    | "orderMessage"
+    | "listResponseMessage"
+    | "buttonsMessage"
+    | "buttonsResponseMessage"
+    | "interactiveMessage"
+    | "interactiveResponseMessage"
+    | "pollCreationMessage"
+    | "requestPhoneNumberMessage"
+    | "messageHistoryBundle"
+    | "eventMessage"
+    | "newsletterAdminInviteMessage"
+    | "albumMessage"
+    | "stickerPackMessage"
+    | "pollResultSnapshotMessage"
+    | "messageHistoryNotice";
 export type DownloadableMessage = {
     mediaKey?: Uint8Array | null;
     directPath?: string | null;
     url?: string | null;
 };
-export type MessageReceiptType = 'read' | 'read-self' | 'hist_sync' | 'peer_msg' | 'sender' | 'inactive' | 'played' | undefined;
+export type MessageReceiptType =
+    | "read"
+    | "read-self"
+    | "hist_sync"
+    | "peer_msg"
+    | "sender"
+    | "inactive"
+    | "played"
+    | undefined;
 export type MediaConnInfo = {
     auth: string;
     ttl: number;
@@ -57,8 +101,8 @@ export type MediaConnInfo = {
     fetchDate: Date;
 };
 export interface WAUrlInfo {
-    'canonical-url': string;
-    'matched-text': string;
+    "canonical-url": string;
+    "matched-text": string;
     title: string;
     description?: string;
     jpegThumbnail?: Buffer;
@@ -97,7 +141,7 @@ export type EventMessageOptions = {
     startDate: Date;
     endDate?: Date;
     location?: WALocationMessage;
-    call?: 'audio' | 'video';
+    call?: "audio" | "video";
     isCancelled?: boolean;
     isScheduleCall?: boolean;
     extraGuestsAllowed?: boolean;
@@ -109,32 +153,42 @@ type SharePhoneNumber = {
 type RequestPhoneNumber = {
     requestPhoneNumber: boolean;
 };
-export type AnyMediaMessageContent = (({
-    image: WAMediaUpload;
-    caption?: string;
-    jpegThumbnail?: string;
-} & Mentionable & Contextable & WithDimensions) | ({
-    video: WAMediaUpload;
-    caption?: string;
-    gifPlayback?: boolean;
-    jpegThumbnail?: string;
-    /** if set to true, will send as a `video note` */
-    ptv?: boolean;
-} & Mentionable & Contextable & WithDimensions) | {
-    audio: WAMediaUpload;
-    /** if set to true, will send as a `voice note` */
-    ptt?: boolean;
-    /** optionally tell the duration of the audio */
-    seconds?: number;
-} | ({
-    sticker: WAMediaUpload;
-    isAnimated?: boolean;
-} & WithDimensions) | ({
-    document: WAMediaUpload;
-    mimetype: string;
-    fileName?: string;
-    caption?: string;
-} & Contextable)) & {
+export type AnyMediaMessageContent = (
+    | ({
+          image: WAMediaUpload;
+          caption?: string;
+          jpegThumbnail?: string;
+      } & Mentionable &
+          Contextable &
+          WithDimensions)
+    | ({
+          video: WAMediaUpload;
+          caption?: string;
+          gifPlayback?: boolean;
+          jpegThumbnail?: string;
+          /** if set to true, will send as a `video note` */
+          ptv?: boolean;
+      } & Mentionable &
+          Contextable &
+          WithDimensions)
+    | {
+          audio: WAMediaUpload;
+          /** if set to true, will send as a `voice note` */
+          ptt?: boolean;
+          /** optionally tell the duration of the audio */
+          seconds?: number;
+      }
+    | ({
+          sticker: WAMediaUpload;
+          isAnimated?: boolean;
+      } & WithDimensions)
+    | ({
+          document: WAMediaUpload;
+          mimetype: string;
+          fileName?: string;
+          caption?: string;
+      } & Contextable)
+) & {
     mimetype?: string;
 } & Editable;
 export type ButtonReplyInfo = {
@@ -149,57 +203,85 @@ export type GroupInviteInfo = {
     jid: string;
     subject: string;
 };
-export type WASendableProduct = Omit<proto.Message.ProductMessage.IProductSnapshot, 'productImage'> & {
+export type WASendableProduct = Omit<
+    proto.Message.ProductMessage.IProductSnapshot,
+    "productImage"
+> & {
     productImage: WAMediaUpload;
 };
-export type AnyRegularMessageContent = (({
-    text: string;
-    linkPreview?: WAUrlInfo | null;
-} & Mentionable & Contextable & Editable) | AnyMediaMessageContent | {
-    event: EventMessageOptions;
-} | ({
-    poll: PollMessageOptions;
-} & Mentionable & Contextable & Editable) | {
-    contacts: {
-        displayName?: string;
-        contacts: proto.Message.IContactMessage[];
-    };
-} | {
-    location: WALocationMessage;
-} | {
-    react: proto.Message.IReactionMessage;
-} | {
-    buttonReply: ButtonReplyInfo;
-    type: 'template' | 'plain';
-} | {
-    groupInvite: GroupInviteInfo;
-} | {
-    listReply: Omit<proto.Message.IListResponseMessage, 'contextInfo'>;
-} | {
-    pin: WAMessageKey;
-    type: proto.PinInChat.Type;
-    /**
-     * 24 hours, 7 days, 30 days
-     */
-    time?: 86400 | 604800 | 2592000;
-} | {
-    product: WASendableProduct;
-    businessOwnerJid?: string;
-    body?: string;
-    footer?: string;
-} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce;
-export type AnyMessageContent = AnyRegularMessageContent | {
-    forward: WAMessage;
-    force?: boolean;
-} | {
-    /** Delete your message or anyone's message in a group (admin required) */
-    delete: WAMessageKey;
-} | {
-    disappearingMessagesInChat: boolean | number;
-} | {
-    limitSharing: boolean;
-};
-export type GroupMetadataParticipants = Pick<GroupMetadata, 'participants'>;
+export type AnyRegularMessageContent = (
+    | ({
+          text: string;
+          linkPreview?: WAUrlInfo | null;
+      } & Mentionable &
+          Contextable &
+          Editable)
+    | AnyMediaMessageContent
+    | {
+          event: EventMessageOptions;
+      }
+    | ({
+          poll: PollMessageOptions;
+      } & Mentionable &
+          Contextable &
+          Editable)
+    | {
+          contacts: {
+              displayName?: string;
+              contacts: proto.Message.IContactMessage[];
+          };
+      }
+    | {
+          location: WALocationMessage;
+      }
+    | {
+          react: proto.Message.IReactionMessage;
+      }
+    | {
+          buttonReply: ButtonReplyInfo;
+          type: "template" | "plain";
+      }
+    | {
+          groupInvite: GroupInviteInfo;
+      }
+    | {
+          listReply: Omit<proto.Message.IListResponseMessage, "contextInfo">;
+      }
+    | {
+          pin: WAMessageKey;
+          type: proto.PinInChat.Type;
+          /**
+           * 24 hours, 7 days, 30 days
+           */
+          time?: 86400 | 604800 | 2592000;
+      }
+    | {
+          product: WASendableProduct;
+          businessOwnerJid?: string;
+          body?: string;
+          footer?: string;
+      }
+    | SharePhoneNumber
+    | RequestPhoneNumber
+) &
+    ViewOnce;
+export type AnyMessageContent =
+    | AnyRegularMessageContent
+    | {
+          forward: WAMessage;
+          force?: boolean;
+      }
+    | {
+          /** Delete your message or anyone's message in a group (admin required) */
+          delete: WAMessageKey;
+      }
+    | {
+          disappearingMessagesInChat: boolean | number;
+      }
+    | {
+          limitSharing: boolean;
+      };
+export type GroupMetadataParticipants = Pick<GroupMetadata, "participants">;
 type MinimalRelayOptions = {
     /** override the message ID with a custom provided string */
     messageId?: string;
@@ -243,11 +325,14 @@ export type MiscMessageGenerationOptions = MinimalRelayOptions & {
 export type MessageGenerationOptionsFromContent = MiscMessageGenerationOptions & {
     userJid: string;
 };
-export type WAMediaUploadFunction = (encFilePath: string, opts: {
-    fileEncSha256B64: string;
-    mediaType: MediaType;
-    timeoutMs?: number;
-}) => Promise<{
+export type WAMediaUploadFunction = (
+    encFilePath: string,
+    opts: {
+        fileEncSha256B64: string;
+        mediaType: MediaType;
+        timeoutMs?: number;
+    }
+) => Promise<{
     mediaUrl: string;
     directPath: string;
     meta_hmac?: string;
@@ -267,29 +352,35 @@ export type MediaGenerationOptions = {
 };
 export type MessageContentGenerationOptions = MediaGenerationOptions & {
     getUrlInfo?: (text: string) => Promise<WAUrlInfo | undefined>;
-    getProfilePicUrl?: (jid: string, type: 'image' | 'preview') => Promise<string | undefined>;
-    getCallLink?: (type: 'audio' | 'video', event?: {
-        startTime: number;
-    }) => Promise<string | undefined>;
+    getProfilePicUrl?: (jid: string, type: "image" | "preview") => Promise<string | undefined>;
+    getCallLink?: (
+        type: "audio" | "video",
+        event?: {
+            startTime: number;
+        }
+    ) => Promise<string | undefined>;
     jid?: string;
 };
-export type MessageGenerationOptions = MessageContentGenerationOptions & MessageGenerationOptionsFromContent;
+export type MessageGenerationOptions = MessageContentGenerationOptions &
+    MessageGenerationOptionsFromContent;
 /**
  * Type of message upsert
  * 1. notify => notify the user, this message was just received
  * 2. append => append the message to the chat history, no notification required
  */
-export type MessageUpsertType = 'append' | 'notify';
+export type MessageUpsertType = "append" | "notify";
 export type MessageUserReceipt = proto.IUserReceipt;
 export type WAMessageUpdate = {
     update: Partial<WAMessage>;
     key: WAMessageKey;
 };
-export type WAMessageCursor = {
-    before: WAMessageKey | undefined;
-} | {
-    after: WAMessageKey | undefined;
-};
+export type WAMessageCursor =
+    | {
+          before: WAMessageKey | undefined;
+      }
+    | {
+          after: WAMessageKey | undefined;
+      };
 export type MessageUserReceiptUpdate = {
     key: WAMessageKey;
     receipt: MessageUserReceipt;
@@ -299,5 +390,5 @@ export type MediaDecryptionKeyInfo = {
     cipherKey: Buffer;
     macKey?: Buffer;
 };
-export type MinimalMessage = Pick<WAMessage, 'key' | 'messageTimestamp'>;
+export type MinimalMessage = Pick<WAMessage, "key" | "messageTimestamp">;
 //# sourceMappingURL=Message.d.ts.map
