@@ -1,11 +1,17 @@
-import { CiphertextMessage } from './ciphertext-message.js';
+import { CiphertextMessage } from "./ciphertext-message.js";
 export declare class SenderKeyDistributionMessage extends CiphertextMessage {
     private readonly id;
     private readonly iteration;
     private readonly chainKey;
     private readonly signatureKey;
     private readonly serialized;
-    constructor(id?: number | null, iteration?: number | null, chainKey?: Uint8Array | null, signatureKey?: Uint8Array | null, serialized?: Uint8Array | null);
+    constructor(
+        id?: number | null,
+        iteration?: number | null,
+        chainKey?: Uint8Array | null,
+        signatureKey?: Uint8Array | null,
+        serialized?: Uint8Array | null
+    );
     private intsToByteHighAndLow;
     serialize(): Uint8Array;
     getType(): number;

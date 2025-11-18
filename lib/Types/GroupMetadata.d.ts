@@ -1,13 +1,13 @@
-import type { Contact } from './Contact.js';
-import type { WAMessageAddressingMode } from './Message.js';
+import type { Contact } from "./Contact.js";
+import type { WAMessageAddressingMode } from "./Message.js";
 export type GroupParticipant = Contact & {
     isAdmin?: boolean;
     isSuperAdmin?: boolean;
-    admin?: 'admin' | 'superadmin' | null;
+    admin?: "admin" | "superadmin" | null;
 };
-export type ParticipantAction = 'add' | 'remove' | 'promote' | 'demote' | 'modify';
-export type RequestJoinAction = 'created' | 'revoked' | 'rejected';
-export type RequestJoinMethod = 'invite_link' | 'linked_group_join' | 'non_admin_add' | undefined;
+export type ParticipantAction = "add" | "remove" | "promote" | "demote" | "modify";
+export type RequestJoinAction = "created" | "revoked" | "rejected";
+export type RequestJoinMethod = "invite_link" | "linked_group_join" | "non_admin_add" | undefined;
 export interface GroupMetadata {
     id: string;
     notify?: string;
@@ -54,9 +54,11 @@ export interface GroupMetadata {
 export interface WAGroupCreateResponse {
     status: number;
     gid?: string;
-    participants?: [{
-        [key: string]: {};
-    }];
+    participants?: [
+        {
+            [key: string]: {};
+        },
+    ];
 }
 export interface GroupModificationResponse {
     status: number;

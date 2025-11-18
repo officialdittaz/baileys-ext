@@ -4,12 +4,22 @@ export declare const SERVER_JID = "server@c.us";
 export declare const PSA_WID = "0@c.us";
 export declare const STORIES_JID = "status@broadcast";
 export declare const META_AI_JID = "13135550002@c.us";
-export type JidServer = 'c.us' | 'g.us' | 'broadcast' | 's.whatsapp.net' | 'call' | 'lid' | 'newsletter' | 'bot' | 'hosted' | 'hosted.lid';
+export type JidServer =
+    | "c.us"
+    | "g.us"
+    | "broadcast"
+    | "s.whatsapp.net"
+    | "call"
+    | "lid"
+    | "newsletter"
+    | "bot"
+    | "hosted"
+    | "hosted.lid";
 export declare enum WAJIDDomains {
     WHATSAPP = 0,
     LID = 1,
     HOSTED = 128,
-    HOSTED_LID = 129
+    HOSTED_LID = 129,
 }
 export type JidWithDevice = {
     user: string;
@@ -19,11 +29,22 @@ export type FullJid = JidWithDevice & {
     server: JidServer;
     domainType?: number;
 };
-export declare const getServerFromDomainType: (initialServer: string, domainType?: WAJIDDomains) => JidServer;
-export declare const jidEncode: (user: string | number | null, server: JidServer, device?: number, agent?: number) => string;
+export declare const getServerFromDomainType: (
+    initialServer: string,
+    domainType?: WAJIDDomains
+) => JidServer;
+export declare const jidEncode: (
+    user: string | number | null,
+    server: JidServer,
+    device?: number,
+    agent?: number
+) => string;
 export declare const jidDecode: (jid: string | undefined) => FullJid | undefined;
 /** is the jid a user */
-export declare const areJidsSameUser: (jid1: string | undefined, jid2: string | undefined) => boolean;
+export declare const areJidsSameUser: (
+    jid1: string | undefined,
+    jid2: string | undefined
+) => boolean;
 /** is the jid Meta AI */
 export declare const isJidMetaAI: (jid: string | undefined) => boolean | undefined;
 /** is the jid a PN user */

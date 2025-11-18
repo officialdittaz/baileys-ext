@@ -1,29 +1,23 @@
-import { readFileSync, writeFileSync } from 'fs';
-import { argv, exit } from 'process';
+import { readFileSync, writeFileSync } from "fs";
+import { argv, exit } from "process";
 
-const filePath = './index.js';
+const filePath = "./index.js";
 
 try {
-  // Read the file
-  let content = readFileSync(filePath, 'utf8');
+    // Read the file
+    let content = readFileSync(filePath, "utf8");
 
-  // Fix the import statement
-  content = content.replace(
-    /import \* as (\$protobuf) from/g,
-    'import $1 from'
-  );
+    // Fix the import statement
+    content = content.replace(/import \* as (\$protobuf) from/g, "import $1 from");
 
-  // add missing extension to the import
-  content = content.replace(
-    /(['"])protobufjs\/minimal(['"])/g,
-    '$1protobufjs/minimal.js$2'
-  );
+    // add missing extension to the import
+    content = content.replace(/(['"])protobufjs\/minimal(['"])/g, "$1protobufjs/minimal.js$2");
 
-  // Write back
-  writeFileSync(filePath, content, 'utf8');
+    // Write back
+    writeFileSync(filePath, content, "utf8");
 
-  console.log(`✅ Fixed imports in ${filePath}`);
+    console.log(`✅ Fixed imports in ${filePath}`);
 } catch (error) {
-  console.error(`❌ Error fixing imports: ${error.message}`);
-  exit(1);
+    console.error(`❌ Error fixing imports: ${error.message}`);
+    exit(1);
 }
