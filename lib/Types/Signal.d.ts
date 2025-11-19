@@ -1,5 +1,5 @@
-import { proto } from "../../WAProto/index.js";
-import type { LIDMappingStore } from "../Signal/lid-mapping.js";
+import { proto } from '../../WAProto/index.js';
+import type { LIDMappingStore } from '../Signal/lid-mapping.js';
 type DecryptGroupSignalOpts = {
     group: string;
     authorJid: string;
@@ -11,7 +11,7 @@ type ProcessSenderKeyDistributionMessageOpts = {
 };
 type DecryptSignalProtoOpts = {
     jid: string;
-    type: "pkmsg" | "msg";
+    type: 'pkmsg' | 'msg';
     ciphertext: Uint8Array;
 };
 type EncryptMessageOpts = {
@@ -42,12 +42,10 @@ type E2ESessionOpts = {
 };
 export type SignalRepository = {
     decryptGroupMessage(opts: DecryptGroupSignalOpts): Promise<Uint8Array>;
-    processSenderKeyDistributionMessage(
-        opts: ProcessSenderKeyDistributionMessageOpts
-    ): Promise<void>;
+    processSenderKeyDistributionMessage(opts: ProcessSenderKeyDistributionMessageOpts): Promise<void>;
     decryptMessage(opts: DecryptSignalProtoOpts): Promise<Uint8Array>;
     encryptMessage(opts: EncryptMessageOpts): Promise<{
-        type: "pkmsg" | "msg";
+        type: 'pkmsg' | 'msg';
         ciphertext: Uint8Array;
     }>;
     encryptGroupMessage(opts: EncryptGroupMessageOpts): Promise<{
@@ -60,10 +58,7 @@ export type SignalRepository = {
         reason?: string;
     }>;
     jidToSignalProtocolAddress(jid: string): string;
-    migrateSession(
-        fromJid: string,
-        toJid: string
-    ): Promise<{
+    migrateSession(fromJid: string, toJid: string): Promise<{
         migrated: number;
         skipped: number;
         total: number;

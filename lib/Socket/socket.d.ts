@@ -1,9 +1,9 @@
-import { Boom } from "@hapi/boom";
-import type { SocketConfig } from "../Types/index.js";
-import { type BinaryNode } from "../WABinary/index.js";
-import { BinaryInfo } from "../WAM/BinaryInfo.js";
-import { USyncQuery } from "../WAUSync/index.js";
-import { WebSocketClient } from "./Client/index.js";
+import { Boom } from '@hapi/boom';
+import type { SocketConfig } from '../Types/index.js';
+import { type BinaryNode } from '../WABinary/index.js';
+import { BinaryInfo } from '../WAM/BinaryInfo.js';
+import { USyncQuery } from '../WAUSync/index.js';
+import { WebSocketClient } from './Client/index.js';
 /**
  * Connects to WA servers and performs:
  * - simple queries (no retry mechanism, wait for connection establishment)
@@ -14,15 +14,9 @@ export declare const makeSocket: (config: SocketConfig) => {
     type: "md";
     ws: WebSocketClient;
     ev: import("../Types/index.js").BaileysEventEmitter & {
-        process(
-            handler: (
-                events: Partial<import("../Types/index.js").BaileysEventMap>
-            ) => void | Promise<void>
-        ): () => void;
+        process(handler: (events: Partial<import("../Types/index.js").BaileysEventMap>) => void | Promise<void>): () => void;
         buffer(): void;
-        createBufferedFunction<A extends any[], T>(
-            work: (...args: A) => Promise<T>
-        ): (...args: A) => Promise<T>;
+        createBufferedFunction<A extends any[], T>(work: (...args: A) => Promise<T>): (...args: A) => Promise<T>;
         flush(): boolean;
         isBuffering(): boolean;
     };
@@ -43,25 +37,17 @@ export declare const makeSocket: (config: SocketConfig) => {
     onUnexpectedError: (err: Error | Boom, msg: string) => void;
     uploadPreKeys: (count?: number, retryCount?: number) => Promise<void>;
     uploadPreKeysToServerIfRequired: () => Promise<void>;
+    digestKeyBundle: () => Promise<void>;
+    rotateSignedPreKey: () => Promise<void>;
     requestPairingCode: (phoneNumber: string, customPairingCode?: string) => Promise<string>;
     wamBuffer: BinaryInfo;
     /** Waits for the connection to WA to reach a state */
-    waitForConnectionUpdate: (
-        check: (
-            u: Partial<import("../Types/index.js").ConnectionState>
-        ) => Promise<boolean | undefined>,
-        timeoutMs?: number
-    ) => Promise<void>;
+    waitForConnectionUpdate: (check: (u: Partial<import("../Types/index.js").ConnectionState>) => Promise<boolean | undefined>, timeoutMs?: number) => Promise<void>;
     sendWAMBuffer: (wamBuffer: Buffer) => Promise<any>;
-    executeUSyncQuery: (
-        usyncQuery: USyncQuery
-    ) => Promise<import("../index.js").USyncQueryResult | undefined>;
-    onWhatsApp: (...phoneNumber: string[]) => Promise<
-        | {
-              jid: string;
-              exists: boolean;
-          }[]
-        | undefined
-    >;
+    executeUSyncQuery: (usyncQuery: USyncQuery) => Promise<import("../index.js").USyncQueryResult | undefined>;
+    onWhatsApp: (...phoneNumber: string[]) => Promise<{
+        jid: string;
+        exists: boolean;
+    }[] | undefined>;
 };
 //# sourceMappingURL=socket.d.ts.map

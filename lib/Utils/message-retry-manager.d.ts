@@ -1,5 +1,5 @@
-import type { proto } from "../../WAProto/index.js";
-import type { ILogger } from "./logger.js";
+import type { proto } from '../../WAProto/index.js';
+import type { ILogger } from './logger.js';
 export interface RecentMessageKey {
     to: string;
     id: string;
@@ -14,9 +14,7 @@ export interface SessionRecreateHistory {
 export interface RetryCounter {
     [messageId: string]: number;
 }
-export interface PendingPhoneRequest {
-    [messageId: string]: NodeJS.Timeout;
-}
+export type PendingPhoneRequest = Record<string, ReturnType<typeof setTimeout>>;
 export interface RetryStatistics {
     totalRetries: number;
     successfulRetries: number;
@@ -28,6 +26,7 @@ export interface RetryStatistics {
 export declare class MessageRetryManager {
     private logger;
     private recentMessagesMap;
+    private messageKeyIndex;
     private sessionRecreateHistory;
     private retryCounters;
     private pendingPhoneRequests;
@@ -45,11 +44,7 @@ export declare class MessageRetryManager {
     /**
      * Check if a session should be recreated based on retry count and history
      */
-    shouldRecreateSession(
-        jid: string,
-        retryCount: number,
-        hasSession: boolean
-    ): {
+    shouldRecreateSession(jid: string, retryCount: number, hasSession: boolean): {
         reason: string;
         recreate: boolean;
     };
@@ -82,5 +77,6 @@ export declare class MessageRetryManager {
      */
     cancelPendingPhoneRequest(messageId: string): void;
     private keyToString;
+    private removeRecentMessage;
 }
 //# sourceMappingURL=message-retry-manager.d.ts.map

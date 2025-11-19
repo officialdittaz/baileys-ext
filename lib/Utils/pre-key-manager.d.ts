@@ -1,5 +1,5 @@
-import type { SignalDataSet, SignalDataTypeMap, SignalKeyStore } from "../Types/index.js";
-import type { ILogger } from "./logger.js";
+import type { SignalDataSet, SignalDataTypeMap, SignalKeyStore } from '../Types/index.js';
+import type { ILogger } from './logger.js';
 /**
  * Manages pre-key operations with proper concurrency control
  */
@@ -15,13 +15,7 @@ export declare class PreKeyManager {
     /**
      * Process pre-key operations (updates and deletions)
      */
-    processOperations(
-        data: SignalDataSet,
-        keyType: keyof SignalDataTypeMap,
-        transactionCache: SignalDataSet,
-        mutations: SignalDataSet,
-        isInTransaction: boolean
-    ): Promise<void>;
+    processOperations(data: SignalDataSet, keyType: keyof SignalDataTypeMap, transactionCache: SignalDataSet, mutations: SignalDataSet, isInTransaction: boolean): Promise<void>;
     /**
      * Process deletions with validation
      */

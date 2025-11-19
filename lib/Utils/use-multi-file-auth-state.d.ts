@@ -1,4 +1,4 @@
-import type { AuthenticationState } from "../Types/index.js";
+import type { AuthenticationState } from '../Types/index.js';
 /**
  * stores the full authentication state in a single folder.
  * Far more efficient than singlefileauthstate

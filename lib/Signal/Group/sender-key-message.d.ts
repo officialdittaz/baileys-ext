@@ -1,4 +1,4 @@
-import { CiphertextMessage } from "./ciphertext-message.js";
+import { CiphertextMessage } from './ciphertext-message.js';
 export declare class SenderKeyMessage extends CiphertextMessage {
     private readonly SIGNATURE_LENGTH;
     private readonly messageVersion;
@@ -7,13 +7,7 @@ export declare class SenderKeyMessage extends CiphertextMessage {
     private readonly ciphertext;
     private readonly signature;
     private readonly serialized;
-    constructor(
-        keyId?: number | null,
-        iteration?: number | null,
-        ciphertext?: Uint8Array | null,
-        signatureKey?: Uint8Array | null,
-        serialized?: Uint8Array | null
-    );
+    constructor(keyId?: number | null, iteration?: number | null, ciphertext?: Uint8Array | null, signatureKey?: Uint8Array | null, serialized?: Uint8Array | null);
     getKeyId(): number;
     getIteration(): number;
     getCipherText(): Uint8Array;

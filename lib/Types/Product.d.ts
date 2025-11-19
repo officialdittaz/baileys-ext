@@ -1,4 +1,4 @@
-import type { WAMediaUpload } from "./Message.js";
+import type { WAMediaUpload } from './Message.js';
 export type CatalogResult = {
     data: {
         paging: {
@@ -25,7 +25,7 @@ export type CatalogCollection = {
     products: Product[];
     status: CatalogStatus;
 };
-export type ProductAvailability = "in stock";
+export type ProductAvailability = 'in stock';
 export type ProductBase = {
     name: string;
     retailerId?: string;
@@ -41,7 +41,7 @@ export type ProductCreate = ProductBase & {
     /** images of the product */
     images: WAMediaUpload[];
 };
-export type ProductUpdate = Omit<ProductCreate, "originCountryCode">;
+export type ProductUpdate = Omit<ProductCreate, 'originCountryCode'>;
 export type Product = ProductBase & {
     id: string;
     imageUrls: {

@@ -1,7 +1,7 @@
 {
     "name": "naruyaizumi",
     "type": "module",
-    "version": "26.0.8",
+    "version": "26.0.9",
     "description": "A WebSockets library for interacting with WhatsApp Web",
     "keywords": [
         "whatsapp",
@@ -76,12 +76,11 @@
         "endOfLine": "lf",
         "bracketSameLine": false,
         "overrides": [
-            {
-                "files": "*.js",
-                "options": {
-                    "commentPreserveAll": true
-                }
+        {
+            "files": "*.js",
+            "options": {
+                "commentPreserveAll": true
             }
-        ]
+        }]
     }
 }
