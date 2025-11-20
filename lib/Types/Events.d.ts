@@ -1,21 +1,33 @@
-import type { Boom } from '@hapi/boom';
-import { proto } from '../../WAProto/index.js';
-import type { AuthenticationCreds } from './Auth.js';
-import type { WACallEvent } from './Call.js';
-import type { Chat, ChatUpdate, PresenceData } from './Chat.js';
-import type { Contact } from './Contact.js';
-import type { GroupMetadata, GroupParticipant, ParticipantAction, RequestJoinAction, RequestJoinMethod } from './GroupMetadata.js';
-import type { Label } from './Label.js';
-import type { LabelAssociation } from './LabelAssociation.js';
-import type { MessageUpsertType, MessageUserReceiptUpdate, WAMessage, WAMessageKey, WAMessageUpdate } from './Message.js';
-import type { ConnectionState } from './State.js';
+import type { Boom } from "@hapi/boom";
+import { proto } from "../../WAProto/index.js";
+import type { AuthenticationCreds } from "./Auth.js";
+import type { WACallEvent } from "./Call.js";
+import type { Chat, ChatUpdate, PresenceData } from "./Chat.js";
+import type { Contact } from "./Contact.js";
+import type {
+    GroupMetadata,
+    GroupParticipant,
+    ParticipantAction,
+    RequestJoinAction,
+    RequestJoinMethod,
+} from "./GroupMetadata.js";
+import type { Label } from "./Label.js";
+import type { LabelAssociation } from "./LabelAssociation.js";
+import type {
+    MessageUpsertType,
+    MessageUserReceiptUpdate,
+    WAMessage,
+    WAMessageKey,
+    WAMessageUpdate,
+} from "./Message.js";
+import type { ConnectionState } from "./State.js";
 export type BaileysEventMap = {
     /** connection state has been updated -- WS closed, opened, connecting etc. */
-    'connection.update': Partial<ConnectionState>;
+    "connection.update": Partial<ConnectionState>;
     /** credentials updated -- some metadata, keys or something */
-    'creds.update': Partial<AuthenticationCreds>;
+    "creds.update": Partial<AuthenticationCreds>;
     /** set chats (history sync), everything is reverse chronologically sorted */
-    'messaging-history.set': {
+    "messaging-history.set": {
         chats: Chat[];
         contacts: Contact[];
         messages: WAMessage[];
@@ -25,32 +37,34 @@ export type BaileysEventMap = {
         peerDataRequestSessionId?: string | null;
     };
     /** upsert chats */
-    'chats.upsert': Chat[];
+    "chats.upsert": Chat[];
     /** update the given chats */
-    'chats.update': ChatUpdate[];
-    'lid-mapping.update': {
+    "chats.update": ChatUpdate[];
+    "lid-mapping.update": {
         lid: string;
         pn: string;
     };
     /** delete chats with given ID */
-    'chats.delete': string[];
+    "chats.delete": string[];
     /** presence of contact in a chat updated */
-    'presence.update': {
+    "presence.update": {
         id: string;
         presences: {
             [participant: string]: PresenceData;
         };
     };
-    'contacts.upsert': Contact[];
-    'contacts.update': Partial<Contact>[];
-    'messages.delete': {
-        keys: WAMessageKey[];
-    } | {
-        jid: string;
-        all: true;
-    };
-    'messages.update': WAMessageUpdate[];
-    'messages.media-update': {
+    "contacts.upsert": Contact[];
+    "contacts.update": Partial<Contact>[];
+    "messages.delete":
+        | {
+              keys: WAMessageKey[];
+          }
+        | {
+              jid: string;
+              all: true;
+          };
+    "messages.update": WAMessageUpdate[];
+    "messages.media-update": {
         key: WAMessageKey;
         media?: {
             ciphertext: Uint8Array;
@@ -63,28 +77,28 @@ export type BaileysEventMap = {
      * the update will have type: "notify"
      * if requestId is provided, then the messages was received from the phone due to it being unavailable
      *  */
-    'messages.upsert': {
+    "messages.upsert": {
         messages: WAMessage[];
         type: MessageUpsertType;
         requestId?: string;
     };
     /** message was reacted to. If reaction was removed -- then "reaction.text" will be falsey */
-    'messages.reaction': {
+    "messages.reaction": {
         key: WAMessageKey;
         reaction: proto.IReaction;
     }[];
-    'message-receipt.update': MessageUserReceiptUpdate[];
-    'groups.upsert': GroupMetadata[];
-    'groups.update': Partial<GroupMetadata>[];
+    "message-receipt.update": MessageUserReceiptUpdate[];
+    "groups.upsert": GroupMetadata[];
+    "groups.update": Partial<GroupMetadata>[];
     /** apply an action to participants in a group */
-    'group-participants.update': {
+    "group-participants.update": {
         id: string;
         author: string;
         authorPn?: string;
         participants: GroupParticipant[];
         action: ParticipantAction;
     };
-    'group.join-request': {
+    "group.join-request": {
         id: string;
         author: string;
         authorPn?: string;
@@ -93,22 +107,22 @@ export type BaileysEventMap = {
         action: RequestJoinAction;
         method: RequestJoinMethod;
     };
-    'blocklist.set': {
+    "blocklist.set": {
         blocklist: string[];
     };
-    'blocklist.update': {
+    "blocklist.update": {
         blocklist: string[];
-        type: 'add' | 'remove';
+        type: "add" | "remove";
     };
     /** Receive an update on a call, including when the call was received, rejected, accepted */
     call: WACallEvent[];
-    'labels.edit': Label;
-    'labels.association': {
+    "labels.edit": Label;
+    "labels.association": {
         association: LabelAssociation;
-        type: 'add' | 'remove';
+        type: "add" | "remove";
     };
     /** Newsletter-related events */
-    'newsletter.reaction': {
+    "newsletter.reaction": {
         id: string;
         server_id: string;
         reaction: {
@@ -117,19 +131,19 @@ export type BaileysEventMap = {
             removed?: boolean;
         };
     };
-    'newsletter.view': {
+    "newsletter.view": {
         id: string;
         server_id: string;
         count: number;
     };
-    'newsletter-participants.update': {
+    "newsletter-participants.update": {
         id: string;
         author: string;
         user: string;
         new_role: string;
         action: string;
     };
-    'newsletter-settings.update': {
+    "newsletter-settings.update": {
         id: string;
         update: any;
     };
@@ -194,8 +208,14 @@ export type BufferedEventData = {
 };
 export type BaileysEvent = keyof BaileysEventMap;
 export interface BaileysEventEmitter {
-    on<T extends keyof BaileysEventMap>(event: T, listener: (arg: BaileysEventMap[T]) => void): void;
-    off<T extends keyof BaileysEventMap>(event: T, listener: (arg: BaileysEventMap[T]) => void): void;
+    on<T extends keyof BaileysEventMap>(
+        event: T,
+        listener: (arg: BaileysEventMap[T]) => void
+    ): void;
+    off<T extends keyof BaileysEventMap>(
+        event: T,
+        listener: (arg: BaileysEventMap[T]) => void
+    ): void;
     removeAllListeners<T extends keyof BaileysEventMap>(event: T): void;
     emit<T extends keyof BaileysEventMap>(event: T, arg: BaileysEventMap[T]): boolean;
 }

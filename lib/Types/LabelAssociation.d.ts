@@ -1,7 +1,7 @@
 /** Association type */
 export declare enum LabelAssociationType {
     Chat = "label_jid",
-    Message = "label_message"
+    Message = "label_message",
 }
 export type LabelAssociationTypes = `${LabelAssociationType}`;
 /** Association for chat */

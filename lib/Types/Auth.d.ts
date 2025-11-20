@@ -1,6 +1,6 @@
-import type { proto } from '../../WAProto/index.js';
-import type { Contact } from './Contact.js';
-import type { MinimalMessage } from './Message.js';
+import type { proto } from "../../WAProto/index.js";
+import type { Contact } from "./Contact.js";
+import type { MinimalMessage } from "./Message.js";
 export type KeyPair = {
     public: Uint8Array;
     private: Uint8Array;
@@ -41,7 +41,10 @@ export type AccountSettings = {
     /** unarchive chats when a new message is received */
     unarchiveChats: boolean;
     /** the default mode to start new conversations with */
-    defaultDisappearingMode?: Pick<proto.IConversation, 'ephemeralExpiration' | 'ephemeralSettingTimestamp'>;
+    defaultDisappearingMode?: Pick<
+        proto.IConversation,
+        "ephemeralExpiration" | "ephemeralSettingTimestamp"
+    >;
 };
 export type AuthenticationCreds = SignalCreds & {
     readonly noiseKey: KeyPair;
@@ -66,16 +69,16 @@ export type AuthenticationCreds = SignalCreds & {
     additionalData?: any | undefined;
 };
 export type SignalDataTypeMap = {
-    'pre-key': KeyPair;
+    "pre-key": KeyPair;
     session: Uint8Array;
-    'sender-key': Uint8Array;
-    'sender-key-memory': {
+    "sender-key": Uint8Array;
+    "sender-key-memory": {
         [jid: string]: boolean;
     };
-    'app-state-sync-key': proto.Message.IAppStateSyncKeyData;
-    'app-state-sync-version': LTHashState;
-    'lid-mapping': string;
-    'device-list': string[];
+    "app-state-sync-key": proto.Message.IAppStateSyncKeyData;
+    "app-state-sync-version": LTHashState;
+    "lid-mapping": string;
+    "device-list": string[];
     tctoken: {
         token: Buffer;
         timestamp?: string;
@@ -88,7 +91,10 @@ export type SignalDataSet = {
 };
 type Awaitable<T> = T | Promise<T>;
 export type SignalKeyStore = {
-    get<T extends keyof SignalDataTypeMap>(type: T, ids: string[]): Awaitable<{
+    get<T extends keyof SignalDataTypeMap>(
+        type: T,
+        ids: string[]
+    ): Awaitable<{
         [id: string]: SignalDataTypeMap[T];
     }>;
     set(data: SignalDataSet): Awaitable<void>;

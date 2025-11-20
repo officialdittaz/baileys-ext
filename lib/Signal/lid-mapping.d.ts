@@ -1,11 +1,15 @@
-import type { LIDMapping, SignalKeyStoreWithTransaction } from '../Types/index.js';
-import type { ILogger } from '../Utils/logger.js';
+import type { LIDMapping, SignalKeyStoreWithTransaction } from "../Types/index.js";
+import type { ILogger } from "../Utils/logger.js";
 export declare class LIDMappingStore {
     private readonly mappingCache;
     private readonly keys;
     private readonly logger;
     private pnToLIDFunc?;
-    constructor(keys: SignalKeyStoreWithTransaction, logger: ILogger, pnToLIDFunc?: (jids: string[]) => Promise<LIDMapping[] | undefined>);
+    constructor(
+        keys: SignalKeyStoreWithTransaction,
+        logger: ILogger,
+        pnToLIDFunc?: (jids: string[]) => Promise<LIDMapping[] | undefined>
+    );
     /**
      * Store LID-PN mapping - USER LEVEL
      */
