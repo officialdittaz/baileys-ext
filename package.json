@@ -1,7 +1,7 @@
 {
     "name": "naruyaizumi",
     "type": "module",
-    "version": "26.0.12",
+    "version": "26.0.13",
     "description": "A WebSockets library for interacting with WhatsApp Web",
     "keywords": [
         "whatsapp",
@@ -44,15 +44,11 @@
     },
     "peerDependencies": {
         "audio-decode": "^2.2.3",
-        "jimp": "^1.6.0",
         "link-preview-js": "^4.0.0",
         "sharp": "*"
     },
     "peerDependenciesMeta": {
         "audio-decode": {
-            "optional": true
-        },
-        "jimp": {
             "optional": true
         },
         "link-preview-js": {
