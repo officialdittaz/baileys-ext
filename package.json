@@ -62,12 +62,11 @@
         "endOfLine": "lf",
         "bracketSameLine": false,
         "overrides": [
-            {
-                "files": "*.js",
-                "options": {
-                    "commentPreserveAll": true
-                }
+        {
+            "files": "*.js",
+            "options": {
+                "commentPreserveAll": true
             }
-        ]
+        }]
     }
 }
