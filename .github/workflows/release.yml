@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
   check-release:
@@ -25,19 +26,19 @@ jobs:
         id: check_version
         run: |
           NEW_VERSION=$(jq -r .version package.json)
-          echo "📦 New version: $NEW_VERSION"
+          echo "New version: $NEW_VERSION"
 
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           OLD_VERSION=${LAST_TAG#v}
-          echo "🏷️  Last tag: $LAST_TAG"
-          echo "📝 Old version: $OLD_VERSION"
+          echo "Last tag: $LAST_TAG"
+          echo "Old version: $OLD_VERSION"
 
           if [ "$NEW_VERSION" != "$OLD_VERSION" ]; then
-            echo "✅ Version changed: $OLD_VERSION → $NEW_VERSION"
+            echo "Version changed: $OLD_VERSION to $NEW_VERSION"
             echo "version_changed=true" >> $GITHUB_OUTPUT
             echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
           else
-            echo "ℹ️  No version change detected"
+            echo "No version change detected"
             echo "version_changed=false" >> $GITHUB_OUTPUT
           fi
 
@@ -56,7 +57,7 @@ jobs:
           tag_name: v${{ needs.check-release.outputs.version }}
           name: v${{ needs.check-release.outputs.version }}
           body: |
-            🚀 Automated release for version v${{ needs.check-release.outputs.version }}
+            Automated release for version v${{ needs.check-release.outputs.version }}
             
             ## What's Changed
             See the full changelog in the commit history.
@@ -98,17 +99,17 @@ jobs:
           EXPECTED_VERSION="${{ needs.check-release.outputs.version }}"
           
           if [ "$PACKAGE_VERSION" != "$EXPECTED_VERSION" ]; then
-            echo "❌ Error: Version mismatch!"
-            echo "   Package.json: $PACKAGE_VERSION"
-            echo "   Expected: $EXPECTED_VERSION"
+            echo "Error: Version mismatch!"
+            echo "Package.json: $PACKAGE_VERSION"
+            echo "Expected: $EXPECTED_VERSION"
             exit 1
           fi
           
-          echo "✅ Version verified: v$PACKAGE_VERSION"
+          echo "Version verified: v$PACKAGE_VERSION"
 
       - name: Install dependencies
         run: |
-          echo "📦 Installing dependencies..."
+          echo "Installing dependencies..."
           bun install --frozen-lockfile
 
       - name: Publish to npm
@@ -116,18 +117,18 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "❌ Error: NPM_TOKEN secret is not set"
+            echo "Error: NPM_TOKEN secret is not set"
             exit 1
           fi
           
-          echo "📤 Publishing to npm..."
+          echo "Publishing to npm..."
           npm publish --access public
           
-          echo "✅ Successfully published v${{ needs.check-release.outputs.version }} to npm!"
+          echo "Successfully published v${{ needs.check-release.outputs.version }} to npm"
 
       - name: Publish Summary
         run: |
-          echo "## 🎉 Publish Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "## Publish Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Version:** v${{ needs.check-release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -137,5 +138,5 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Links" >> $GITHUB_STEP_SUMMARY
-          echo "- 📦 [npm package](https://www.npmjs.com/package/naruyaizumi)" >> $GITHUB_STEP_SUMMARY
-          echo "- 🏷️ [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/v${{ needs.check-release.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [npm package](https://www.npmjs.com/package/naruyaizumi)" >> $GITHUB_STEP_SUMMARY
+          echo "- [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/v${{ needs.check-release.outputs.version }})" >> $GITHUB_STEP_SUMMARY

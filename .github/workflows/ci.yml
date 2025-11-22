@@ -120,13 +120,3 @@ jobs:
             echo "⚠ Warning: Unexpected formatting differences detected"
             git diff --stat
           fi
-
-      - name: CI Summary
-        run: |
-          echo "## CI Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Bun installation: Success" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Dependencies: Installed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Preinstall check: Passed" >> $GITHUB_STEP_SUMMARY
-          echo "- 📝 ESLint: Completed" >> $GITHUB_STEP_SUMMARY
-          echo "- 💅 Prettier: ${{ steps.prettier-check.outputs.prettier_needed == 'true' && 'Formatted' || 'Already clean' }}" >> $GITHUB_STEP_SUMMARY

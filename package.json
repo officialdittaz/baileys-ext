@@ -1,15 +1,15 @@
 {
     "name": "naruyaizumi",
     "type": "module",
-    "version": "26.0.13",
+    "version": "26.0.14",
     "description": "A WebSockets library for interacting with WhatsApp Web",
     "keywords": [
         "whatsapp",
         "automation"
     ],
-    "homepage": "https://github.com/WhiskeySockets/Baileys/",
+    "homepage": "https://github.com/naruyaizumi",
     "repository": {
-        "url": "git@github.com:WhiskeySockets/Baileys.git"
+        "url": "git@github.com:naruyaizumi/baileys.git"
     },
     "license": "MIT",
     "author": "Rajeh Taher",
@@ -33,8 +33,7 @@
         "libsignal": "github:whiskeysockets/libsignal-node",
         "music-metadata": "^11.10.2",
         "p-queue": "^9.0.1",
-        "pino": "^10.1.0",
-        "protobufjs": "^7.5.4"
+        "pino": "^10.1.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.1",
