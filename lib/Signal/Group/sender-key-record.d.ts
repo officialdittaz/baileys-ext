@@ -1,4 +1,4 @@
-import { SenderKeyState } from './sender-key-state.js';
+import { SenderKeyState } from "./sender-key-state.js";
 export interface SenderKeyStateStructure {
     senderKeyId: number;
     senderChainKey: {
@@ -20,11 +20,21 @@ export declare class SenderKeyRecord {
     constructor(serialized?: SenderKeyStateStructure[]);
     isEmpty(): boolean;
     getSenderKeyState(keyId?: number): SenderKeyState | undefined;
-    addSenderKeyState(id: number, iteration: number, chainKey: Uint8Array, signatureKey: Uint8Array): void;
-    setSenderKeyState(id: number, iteration: number, chainKey: Uint8Array, keyPair: {
-        public: Uint8Array;
-        private: Uint8Array;
-    }): void;
+    addSenderKeyState(
+        id: number,
+        iteration: number,
+        chainKey: Uint8Array,
+        signatureKey: Uint8Array
+    ): void;
+    setSenderKeyState(
+        id: number,
+        iteration: number,
+        chainKey: Uint8Array,
+        keyPair: {
+            public: Uint8Array;
+            private: Uint8Array;
+        }
+    ): void;
     serialize(): SenderKeyStateStructure[];
     static deserialize(data: Uint8Array): SenderKeyRecord;
 }
