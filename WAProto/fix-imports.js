@@ -16,8 +16,8 @@ try {
     // Write back
     writeFileSync(filePath, content, "utf8");
 
-    console.log(`✅ Fixed imports in ${filePath}`);
+    console.log(`Fixed imports in ${filePath}`);
 } catch (error) {
-    console.error(`❌ Error fixing imports: ${error.message}`);
+    console.error(`Error fixing imports: ${error.message}`);
     exit(1);
 }
