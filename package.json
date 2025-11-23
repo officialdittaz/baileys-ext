@@ -48,8 +48,8 @@
     },
     "peerDependenciesMeta": {
         "audio-decode": {
-      "optional": true
-    },
+            "optional": true
+        },
         "link-preview-js": {
             "optional": true
         }
