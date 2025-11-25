@@ -30,11 +30,11 @@
         "@cacheable/node-cache": "^1.7.5",
         "@hapi/boom": "^10.0.1",
         "async-mutex": "^0.5.0",
+        "libsignal": "github:whiskeysockets/libsignal-node",
         "music-metadata": "^11.10.2",
         "p-queue": "^9.0.1",
         "pino": "^10.1.0",
-        "protobufjs": "^7.5.4",
-        "whatsapp-rust-bridge": "^0.4.0"
+        "protobufjs": "^7.5.4"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.1",
