@@ -33,6 +33,7 @@
         "music-metadata": "^11.10.2",
         "p-queue": "^9.0.1",
         "pino": "^10.1.0",
+        "protobufjs": "^7.5.4",
         "whatsapp-rust-bridge": "^0.4.0"
     },
     "devDependencies": {
