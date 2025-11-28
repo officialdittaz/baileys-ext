@@ -33,7 +33,8 @@
         "libsignal": "github:officialdittaz/libsignal-node",
         "music-metadata": "^11.10.2",
         "p-queue": "^9.0.1",
-        "pino": "^10.1.0"
+        "pino": "^10.1.0",
+        "protobufjs": "^7.5.4"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.1",
